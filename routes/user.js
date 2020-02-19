@@ -8,12 +8,35 @@ const db = require('../db');
 */
 const router = new Router();
 
-router.get('/users', async (request, response) => {
+router.get('/createtablelikes', async (request, response) => {
+  const query =
+    'CREATE TABLE LIKES (ID SERIAL PRIMARY KEY, SLUG VARCHAR(80) UNIQUE NOT NULL, COUNT INTEGER NOT NULL)';
+  try {
+    const result = await db.query(query);
+  } catch (error) {
+    console.log(error.stack);
+  }
+});
+
+router.get('/createtabletest', async (request, response) => {
+  const query =
+    'CREATE TABLE TEST2 (ID SERIAL PRIMARY KEY, EMAIL VARCHAR(200) UNIQUE NOT NULL)';
+  try {
+    const result = await db.query(query);
+    return response.json({ info: 'Tabela criada!' });
+  } catch (error) {
+    console.log(error.stack);
+  }
+});
+
+// http://localhost:3333/users
+router.get('/', async (request, response) => {
   const query = 'SELECT * FROM USERS ORDER BY ID DESC';
   const result = await db.query(query);
   response.status(200).json(result.rows);
 });
 
+// http://localhost:3333/users/:id
 router.get('/:id', async (request, response) => {
   const id = parseInt(request.params.id);
   const query = 'SELECT * FROM USERS WHERE ID =$1';
@@ -21,7 +44,8 @@ router.get('/:id', async (request, response) => {
   response.status(200).json(result.rows[0]);
 });
 
-router.post('/user', async (request, response) => {
+// http://localhost:3333/users
+router.post('/', async (request, response) => {
   const { name, email, password } = request.body;
   const now = new Date();
   const query = `INSERT INTO USERS (NAME, EMAIL, PASSWORD_HASH, CREATED_AT, UPDATED_AT)
@@ -37,6 +61,7 @@ router.post('/user', async (request, response) => {
   }
 });
 
+// http://localhost:3333/users/:id
 router.put('/:id', async (request, response) => {
   const id = parseInt(request.params.id);
   const { name, password } = request.body;
@@ -52,6 +77,7 @@ router.put('/:id', async (request, response) => {
   }
 });
 
+// http://localhost:3333/users/:id
 router.delete('/:id', async (request, response) => {
   const id = parseInt(request.params.id);
   const query = `DELETE FROM USERS WHERE ID = $1 RETURNING *`;
