@@ -8,27 +8,6 @@ const db = require('../db');
 */
 const router = new Router();
 
-router.get('/createtablelikes', async (request, response) => {
-  const query =
-    'CREATE TABLE LIKES (ID SERIAL PRIMARY KEY, SLUG VARCHAR(80) UNIQUE NOT NULL, COUNT INTEGER NOT NULL)';
-  try {
-    const result = await db.query(query);
-  } catch (error) {
-    console.log(error.stack);
-  }
-});
-
-router.get('/createtabletest', async (request, response) => {
-  const query =
-    'CREATE TABLE TEST2 (ID SERIAL PRIMARY KEY, EMAIL VARCHAR(200) UNIQUE NOT NULL)';
-  try {
-    const result = await db.query(query);
-    return response.json({ info: 'Tabela criada!' });
-  } catch (error) {
-    console.log(error.stack);
-  }
-});
-
 // http://localhost:3333/users
 router.get('/', async (request, response) => {
   const query = 'SELECT * FROM USERS ORDER BY ID DESC';

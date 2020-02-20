@@ -1,4 +1,5 @@
 const users = require('./user');
+const tables = require('./tables');
 
 module.exports = app => {
   app.get('/', (request, response) => {
@@ -6,5 +7,6 @@ module.exports = app => {
   });
   app.use('/users', users);
   app.use('/users/:id', users);
+  app.use('/table/create', tables);
   // ... demais rotas
 };
