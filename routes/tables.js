@@ -38,5 +38,5 @@ router.get('/likes', async (request, response) => {
   }
 });
 
-// exporta nosso roteador para ser montado pelo app
+// exporta o roteador para ser montado pelo app
 module.exports = router;
